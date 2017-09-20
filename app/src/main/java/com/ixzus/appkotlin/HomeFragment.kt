@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.ixzus.appkotlin.adapter.HomeAdapter
 import com.ixzus.appkotlin.entity.Meizi
+import com.ixzus.appkotlin.net.ApiCallback
 import com.ixzus.appkotlin.net.GankService
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -63,10 +64,16 @@ class HomeFragment : Fragment() {
                 .subscribeOn(Schedulers.io())
                 .map { it.results }
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    listData.clear()
-                    listData.addAll(it)
-                    adapter.notifyDataSetChanged()
+                .subscribe(object : ApiCallback<List<Meizi>>() {
+                    override fun onSuccess(model: List<Meizi>) {
+                        listData.clear()
+                        listData.addAll(model)
+                        adapter.notifyDataSetChanged()
+                    }
+
+                    override fun onError(msg: String) {
+                    }
+
                 })
     }
 
