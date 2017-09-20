@@ -2,8 +2,8 @@ package com.ixzus.appkotlin
 
 import android.graphics.Typeface
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.view.WindowManager
+import com.ixzus.appkotlin.base.BaseActivity
 import com.ixzus.appkotlin.util.Sp
 import com.ixzus.appkotlin.util.gotoActivity
 import com.ixzus.appkotlin.util.toast
@@ -14,10 +14,10 @@ import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_splash.*
 import java.util.concurrent.TimeUnit
 
-class SplashActivity : AppCompatActivity() {
+class SplashActivity : BaseActivity() {
 
     val SP_KEY = "check_update"
-    var localVersion  by Sp(this,SP_KEY,"0")
+    var localVersion by Sp(this, SP_KEY, "0")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
@@ -59,9 +59,9 @@ class SplashActivity : AppCompatActivity() {
     }
 
     fun goNext() {
-        var netVersion:String
+        var netVersion: String
         netVersion = "1"
-        if(netVersion.toInt()>localVersion.toInt()){
+        if (netVersion.toInt() > localVersion.toInt()) {
             toast("发现新版本，已升级新版本")
             localVersion = netVersion
         }

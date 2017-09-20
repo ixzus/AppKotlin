@@ -11,6 +11,7 @@ import com.ixzus.appkotlin.adapter.HomeAdapter
 import com.ixzus.appkotlin.entity.Meizi
 import com.ixzus.appkotlin.net.ApiCallback
 import com.ixzus.appkotlin.net.GankService
+import com.ixzus.appkotlin.util.loge
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -66,12 +67,14 @@ class HomeFragment : Fragment() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : ApiCallback<List<Meizi>>() {
                     override fun onSuccess(model: List<Meizi>) {
+                        loge(""+model.size)
                         listData.clear()
                         listData.addAll(model)
                         adapter.notifyDataSetChanged()
                     }
 
                     override fun onError(msg: String) {
+                        loge(msg)
                     }
 
                 })
