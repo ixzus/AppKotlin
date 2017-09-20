@@ -3,9 +3,15 @@ package com.ixzus.appkotlin
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.ixzus.appkotlin.adapter.HomeAdapter
+import com.ixzus.appkotlin.entity.Meizi
+import com.ixzus.appkotlin.net.GankService
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_home.*
 
 
@@ -13,6 +19,9 @@ class HomeFragment : Fragment() {
 
     private var mParam1: String = ""
     private var mParam2: String = ""
+
+    private var listData = ArrayList<Meizi>()
+    private val adapter = HomeAdapter(listData)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,5 +53,21 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         tv_info.text = mParam1
+        initRecyclerView()
     }
+
+    private fun initRecyclerView() {
+        recyclerview.layoutManager = LinearLayoutManager(activity)
+        recyclerview.adapter = adapter
+        GankService.api.getMeizi(50, 1)
+                .subscribeOn(Schedulers.io())
+                .map { it.results }
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    listData.clear()
+                    listData.addAll(it)
+                    adapter.notifyDataSetChanged()
+                })
+    }
+
 }

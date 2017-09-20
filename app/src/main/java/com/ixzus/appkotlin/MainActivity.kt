@@ -12,8 +12,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
 
     var homeFragment: HomeFragment? = null
-    var orderFragment: HomeFragment? = null
-    var myFragment: HomeFragment? = null
+    var orderFragment: OrderFragment? = null
+    var myFragment: MyFragment? = null
     var mExitTime: Long = 0
     var toast: Toast? = null
 
@@ -31,11 +31,17 @@ class MainActivity : AppCompatActivity() {
                 if (item is HomeFragment) {
                     homeFragment = item
                 }
+                if (item is OrderFragment) {
+                    orderFragment = item
+                }
+                if (item is MyFragment) {
+                    myFragment = item
+                }
             }
         } else {
             homeFragment = HomeFragment.newInstance("homeFragment", "0")
-            orderFragment = HomeFragment.newInstance("orderFragment", "0")
-            myFragment = HomeFragment.newInstance("myFragment", "0")
+            orderFragment = OrderFragment.newInstance("orderFragment", "0")
+            myFragment = MyFragment.newInstance("myFragment", "0")
             val fragmentTrans = supportFragmentManager.beginTransaction()
             fragmentTrans.add(R.id.fl_content, homeFragment)
             fragmentTrans.add(R.id.fl_content, orderFragment)

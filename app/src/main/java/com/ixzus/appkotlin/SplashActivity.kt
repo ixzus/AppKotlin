@@ -1,12 +1,12 @@
 package com.ixzus.appkotlin
 
-import android.app.Activity
-import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.WindowManager
-import com.ixzus.appkotlin.util.newIntent
+import com.ixzus.appkotlin.util.Sp
+import com.ixzus.appkotlin.util.gotoActivity
+import com.ixzus.appkotlin.util.toast
 import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -15,6 +15,9 @@ import kotlinx.android.synthetic.main.activity_splash.*
 import java.util.concurrent.TimeUnit
 
 class SplashActivity : AppCompatActivity() {
+
+    val SP_KEY = "check_update"
+    var localVersion  by Sp(this,SP_KEY,"0")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
@@ -32,7 +35,7 @@ class SplashActivity : AppCompatActivity() {
 
     fun initEvent() {
         iv_logo.setOnClickListener({
-            newIntent<MainActivity>()
+            gotoActivity<MainActivity>()
         })
         var countTime = 2L
         Observable.interval(0, 1, TimeUnit.SECONDS)
@@ -40,23 +43,28 @@ class SplashActivity : AppCompatActivity() {
                 .map { aLong -> countTime - aLong }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : Observer<Long> {
-                    override fun onSubscribe(d: Disposable?) {
-                    }
-
-                    override fun onNext(t: Long?) {
-                    }
-
-                    override fun onError(e: Throwable?) {
+                    override fun onError(e: Throwable) {
                     }
 
                     override fun onComplete() {
                         goNext()
                     }
-                })
 
+                    override fun onSubscribe(d: Disposable) {
+                    }
+
+                    override fun onNext(t: Long) {
+                    }
+                })
     }
 
     fun goNext() {
-        newIntent<MainActivity>()
+        var netVersion:String
+        netVersion = "1"
+        if(netVersion.toInt()>localVersion.toInt()){
+            toast("发现新版本，已升级新版本")
+            localVersion = netVersion
+        }
+        gotoActivity<MainActivity>()
     }
 }
