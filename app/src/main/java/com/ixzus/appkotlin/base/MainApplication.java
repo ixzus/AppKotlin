@@ -1,4 +1,4 @@
-package com.ixzus.appkotlin;
+package com.ixzus.appkotlin.base;
 
 import android.app.Application;
 

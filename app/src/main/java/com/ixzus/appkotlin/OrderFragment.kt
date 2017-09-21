@@ -11,6 +11,7 @@ import com.ixzus.appkotlin.adapter.QuickAdapter
 import com.ixzus.appkotlin.entity.Meizi
 import com.ixzus.appkotlin.net.ApiCallback
 import com.ixzus.appkotlin.net.GankService
+import com.ixzus.appkotlin.util.loge
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_order.*
@@ -25,7 +26,7 @@ class OrderFragment : Fragment() {
     private val mPageSize = 8
 
     private var listData = ArrayList<Meizi>()
-    private val adapter = QuickAdapter(R.layout.rv_home, listData)
+    private val adapter = QuickAdapter(R.layout.rv_image, listData)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,6 +96,9 @@ class OrderFragment : Fragment() {
                                 adapter.setNewData(model)
                             }else{
                                 adapter.addData(model)
+                            }
+                            for(item in model){
+                                loge(""+item.url)
                             }
                         } else {
                             adapter.emptyView = noDataView
