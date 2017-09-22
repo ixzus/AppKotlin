@@ -12,6 +12,6 @@ class HomeAdapter(layoutResId: Int, data: List<String>) : BaseQuickAdapter<Strin
     override fun convert(helper: BaseViewHolder?, item: String?) {
         val view = helper!!.getView<TextView>(R.id.tv_name)
         view.text = item
-        helper.addOnClickListener(R.id.tv_name)
+//        helper.addOnClickListener(R.id.tv_name)
     }
 }

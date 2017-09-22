@@ -8,6 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.ixzus.appkotlin.adapter.HomeAdapter
+import com.ixzus.appkotlin.pic.SelectImgActivity
+import com.ixzus.appkotlin.util.gotoActivity
 import kotlinx.android.synthetic.main.fragment_home.*
 
 
@@ -55,6 +57,11 @@ class HomeFragment : Fragment() {
         recyclerview.layoutManager = LinearLayoutManager(activity)
         recyclerview.adapter = adapter
         listData.add("图片选择")
+        adapter.setOnItemClickListener { adapter, view, position ->
+            when (position) {
+                0 -> activity.gotoActivity<SelectImgActivity>()
+            }
+        }
     }
 
 }
